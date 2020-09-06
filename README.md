@@ -1,4 +1,4 @@
-# ApolloServerLoginAuthentication
+# ApolloServerRegistrationAuthentication
 
 Last updated: January 2020
 
