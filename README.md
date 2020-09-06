@@ -1,5 +1,13 @@
 # ApolloServerLoginAuthentication
-The set-up for an Apollo GraphQL server that allows users to log in through email/password verification.
+
+Last update: January 2020
+
+Languages: Swift (Client), SwiftUI (Client), Node.js (Server), GraphQL (Server)
+Software: Apollo (Server Platform), GraphQL
+
+This two-part (server and client) project sets up an Apollo GraphQL server that allows users to register and verify their account through token authentication.
 
 
-![ApolloGraphQLLoginAuthentication](https://user-images.githubusercontent.com/34993622/92330772-5b55e200-f026-11ea-90a1-afb3aeab91ca.gif)
+
+
+
