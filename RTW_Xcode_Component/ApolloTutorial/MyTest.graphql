@@ -1,0 +1,14 @@
+mutation VerifyUser($email: String!, $token: String!) {
+    userVerifyEmail(email: $email, token:$token) {
+        status
+        message
+    }
+}
+
+mutation RegisterUser ($email: String!, $password: String!){
+    userRegistration(email: $email, password:$password) {
+        status
+        message
+    }
+}
+
