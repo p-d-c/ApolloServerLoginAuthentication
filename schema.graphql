@@ -1,0 +1,372 @@
+type BasicResponse {
+  status: ResponseStatus!
+  message: String
+}
+
+type BasicResponseWithId {
+  status: ResponseStatus!
+  message: String
+  id: ID
+}
+
+type Conference {
+  id: ID
+  title: String
+  description: String
+  coverPhoto: Photo
+  startTime: Int
+  endTime: Int
+  timezone: String
+  speakers: [ConferenceSpeaker!]
+  topics: [String!]
+  audiences: [String!]
+  ticketInventories: [TicketInventory!]
+}
+
+type ConferenceCreatePromotionResponse {
+  status: ResponseStatus!
+  message: String
+  promotionId: ID
+}
+
+type ConferenceCreateResponse {
+  status: ResponseStatus!
+  message: String
+  conferenceId: ID
+}
+
+type ConferencePromotionCode {
+  promoId: ID!
+  conferenceId: ID!
+  code: String!
+  discountPercentage: Int!
+  countTotal: Int!
+  countUsed: Int!
+}
+
+type ConferenceSpeaker {
+  id: ID!
+  userId: ID!
+  email: String!
+  fullName: String!
+  headline: String
+  description: String
+  isKeynoteSpeaker: Boolean
+  coverPhoto: Photo
+  coverVideo: Video
+}
+
+input ConferenceTicketInput {
+  ticketType: TicketType!
+  price: Float!
+  saleStartTime: Int!
+  countTotal: Int!
+}
+
+type Location {
+  zipCode: String
+  city: String
+  country: String
+}
+
+input LocationInput {
+  zipCode: String
+  city: String
+  country: String
+}
+
+type Meeting {
+  title: String!
+  subTitle: String
+  zoomMeetingNumber: String
+  zoomMeetingPassword: String
+  emojiCount: MeetingEmoji!
+  startTime: Int!
+  endTime: Int!
+  thumbnail: Photo
+  speakers: [Speaker!]
+  totalTime: Int
+  recordVideo: Video
+}
+
+type MeetingEmoji {
+  clapCount: Int!
+  confusedCount: Int!
+  mindBrownCount: Int!
+}
+
+enum MeetingFormat {
+  Talk
+  FiresideChat
+  AskMeAnything
+  CocktailHour
+}
+
+type Mutation {
+  userLogin(email: String!, password: String!): UserLoginResponse!
+  userRegistration(email: String!, password: String!): UserRegistrationResponse!
+  userForgotPassword(email: String!): UserForgotPasswordResponse!
+  userResetPassword(
+    email: String!
+    token: String!
+    newPassword: String!
+  ): BasicResponse!
+  userResendEmailVerification: BasicResponse!
+  userVerifyEmail(email: String!, token: String!): UserVerifyEmailResponse!
+  userLogout(token: String!): BasicResponse!
+  profileCommonUpdate(
+    firstName: String
+    lastName: String
+    headline: String
+    location: LocationInput
+    bio: String
+    coverImage: Upload
+  ): BasicResponse!
+  profileInConferenceUpdate(
+    conferenceId: ID!
+    wantToKnow: [String!]
+    know: [String!]
+    customizedAnswer: String
+    coverVideo: Upload
+  ): BasicResponse!
+  conferenceCreate(
+    title: String!
+    description: String!
+    startTime: Int!
+    endTime: Int!
+    coverPhoto: Upload
+    coverVideo: Upload
+  ): ConferenceCreateResponse!
+  conferenceUpdateBasic(
+    conferenceId: ID!
+    title: String!
+    description: String!
+    startTime: Int!
+    endTime: Int!
+    coverPhoto: Upload
+    coverVideo: Upload
+  ): BasicResponse!
+  conferenceUpdateTopics(conferenceId: ID!, topics: [String!]!): BasicResponse!
+  conferenceUpdateAudiences(
+    conferenceId: ID!
+    audiences: [String!]!
+  ): BasicResponse!
+  conferenceCreateSpeaker(
+    conferenceId: ID!
+    fullname: String!
+    email: String!
+    headline: String!
+    description: String!
+    coverPhoto: Upload
+    coverVideo: Upload
+    isKeynoteSpeaker: Boolean!
+  ): BasicResponseWithId!
+  conferenceCreateSpeakers(
+    conferenceId: ID!
+    speakers: [SpeakerInput!]!
+  ): [BasicResponseWithId!]!
+  conferenceUpdateSpeaker(
+    speakerId: ID!
+    fullname: String
+    email: String
+    headline: String
+    description: String
+    coverPhoto: Upload
+    coverVideo: Upload
+    isKeynoteSpeaker: Boolean!
+  ): BasicResponse!
+  conferenceUpdateSpeakers(speakers: [SpeakerInput!]!): [BasicResponse!]!
+  conferenceDeleteSpeaker(speakerId: ID!): BasicResponse!
+  conferenceDeleteSpeakers(speakerIds: [ID!]!): [BasicResponse!]!
+  conferenceCreateMeeting(
+    conferenceId: ID!
+    format: MeetingFormat!
+    startTime: Int!
+    endTime: Int!
+    title: String!
+    subTitle: String!
+    description: String!
+    meetingType: Int!
+    speakerIds: [ID!]
+  ): BasicResponseWithId!
+  conferenceUpdateMeeting(
+    meetingId: ID!
+    format: MeetingFormat!
+    startTime: Int!
+    endTime: Int!
+    title: String!
+    subTitle: String!
+    description: String!
+    meetingType: Int!
+    speakerIds: [ID!]
+  ): BasicResponse!
+  conferenceUpdateTickets(
+    conferenceId: ID!
+    tickets: [ConferenceTicketInput!]!
+  ): BasicResponse!
+  conferenceCreatePromotionCode(
+    conferenceId: ID!
+    code: String!
+    discountPercentage: Int!
+    countTotal: Int!
+  ): BasicResponseWithId!
+  conferenceUpdatePromotionCode(
+    promoId: ID!
+    code: String!
+    discountPercentage: Int!
+    countTotal: Int!
+  ): BasicResponse!
+  conferenceCreatePromotion(
+    conferenceId: ID!
+    totalAmount: Int!
+    expireTime: Int!
+    codeName: String!
+    discountPercentage: Int!
+  ): BasicResponseWithId!
+  conferenceUpdatePromotion(
+    promotionId: ID!
+    totalAmount: Int!
+    expireTime: Int!
+    codeName: String!
+    discountPercentage: Int!
+  ): BasicResponse!
+  attendeeVoteMeetingEmoji(
+    meetingId: Int!
+    addClap: Int!
+    addConfused: Int!
+    addMindBrownCount: Int!
+  ): BasicResponse!
+}
+
+type Photo {
+  url: String!
+}
+
+type Profile {
+  userId: Int!
+  firstName: String!
+  lastName: String!
+  headline: String!
+  location: Location
+  bio: String
+  coverImage: Photo
+}
+
+type ProfileInConference {
+  common: Profile!
+  coverVideo: Video
+  wantToKnow: [String!]
+  know: [String!]
+  customizedAnswer: String
+}
+
+type Query {
+  test: String
+  userLogin(email: String!, password: String!): UserLoginResponse!
+    @deprecated(reason: "Use mutation.userLogin instead")
+  userStatus: UserStatusResponse!
+  profileInConference(userId: ID!, conferenceId: ID!): ProfileInConference
+  landingPageConference(conferenceId: Int!): Conference
+  organizerConference(conferenceId: Int!): Conference
+  organizerConferencesList: [Conference]!
+  organizerConferencePromotionCodeList(
+    conferenceId: Int!
+  ): [ConferencePromotionCode]!
+  attendeeConferencesList: [Conference]!
+  attendeeConference(conference_id: Int!): Conference
+  attendeeMeetingsList(conference_id: Int!): [Meeting!]
+  attendeeMeetingEmoji(meeting_id: Int!): MeetingEmoji
+  attendeeMeeting(meeting_id: Int!): Meeting
+  ticketOrderPreviewFee(
+    conferenceId: Int!
+    ticketType: TicketType!
+    count: Int! 
+    promotionCode: String
+  ): TicketOrderPreviewFeePayload!
+} 
+
+enum ResponseStatus {
+  FAIL
+  SUCCESS
+}
+
+type Speaker {
+  fullName: String!
+  coverImage: Photo
+  profile: Profile
+}
+
+input SpeakerInput {
+  speakerId: ID
+  fullname: String!
+  email: String!
+  headline: String!
+  description: String!
+  coverPhoto: Upload
+  coverVideo: Upload
+  isKeynoteSpeaker: Boolean!
+}
+
+type TicketInventory {
+  id: ID
+  ticketType: TicketType
+  price: Float
+  description: String
+  totalAmount: Int
+  soldAmount: Int
+}
+
+type TicketOrderFee {
+  originalSubtotal: Float!
+  promoDiscount: Float!
+  subtotal: Float!
+  taxRate: Float!
+  tax: Float!
+  total: Float!
+}
+
+type TicketOrderPreviewFeePayload {
+  status: ResponseStatus!
+  message: String
+  fee: TicketOrderFee
+}
+
+enum TicketType {
+  REGULAR
+  EARLY_BIRD
+  VIP
+}
+
+type UserForgotPasswordResponse {
+  status: ResponseStatus!
+  message: String
+}
+
+type UserLoginResponse {
+  status: ResponseStatus!
+  message: String
+  accessToken: String
+  userId: ID
+}
+
+type UserRegistrationResponse {
+  status: ResponseStatus!
+  message: String
+}
+
+type UserStatusResponse {
+  status: ResponseStatus!
+  message: String
+  userId: ID
+  isEmailVerified: Boolean
+}
+
+type UserVerifyEmailResponse {
+  status: ResponseStatus!
+  message: String
+}
+
+type Video {
+  url: String!
+}
+
