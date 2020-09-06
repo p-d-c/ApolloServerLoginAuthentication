@@ -9,9 +9,7 @@ Software: Apollo (Server Platform), GraphQL
 
 Summary: This two-part (server and client) project sets up an Apollo GraphQL server that allows users to register and verify their account through token authentication.
 
-
-This is my iOS Swift/SwiftUI coding challenge, which involved Apollo and GraphQL.
-There are two components to the project: the server and the Xcode application.
+There are two components to the project: the server and the Xcode client application.
 RTW_Xcode_Component is the application, and RTW_Server_Component is the
 corresponding server.
 
@@ -22,8 +20,7 @@ The secret for the jsonwebtoken is stored in .env (see: vi .env). This
 requires the 'dotenv' library, which must be installed (command: npm install
 dotenv).
 To run the server:
-1) Go to iOSCodeChallenge_Priya >
-RTW_Apollo_Project >
+1) Go to
 RTW_Server_Component
 2) Type "node index.js"
 3) Go to the server URL
