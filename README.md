@@ -12,7 +12,7 @@ Summary: This two-part (server and client) project sets up an Apollo GraphQL ser
 There are two components to the project: the server and the Xcode client application.
 RTW_Xcode_Component is the client application, and index.js activates the corresponding server.
 
-Notes:
+Server:
 
 The secret for the jsonwebtoken is stored in .env (see: vi .env). This
 requires the 'dotenv' library, which must be installed (command: npm install
@@ -29,7 +29,7 @@ The Express library is used for its app capabilities.
 Pepipost is the name of the service/API used to send emails to users.
 The jsonwebtoken is set to expire after 2 minutes.
 
-Xcode Project:
+Xcode Client:
 
 There are four main views: RegistrationView, VerifyEmailView,
 VerificationSuccessView, and VerificationFailureView. Users can
